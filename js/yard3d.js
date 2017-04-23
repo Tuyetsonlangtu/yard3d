@@ -2,13 +2,17 @@
  * Created by hientran on 4/23/17.
  */
 import MapObject from './map-object';
+import blockData from './json/block.json';
+import DrawBlock from './draw-block';
 
 class Yard3D {
   constructor() {
     this.initiate();
   }
 
-  initiate(){
+  initiate() {
+    let _this = this;
+    this.arrPromise = [];
     this.scene = new THREE.Scene();
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -40,8 +44,13 @@ class Yard3D {
     this.controls.zoomSpeed = 200;
     this.controls.staticMoving = true;
 
-
-    this.render();
+    let drawBlock = new DrawBlock(this);
+    drawBlock.drawBlocks(blockData);
+    Promise.all(this.arrPromise).then(values => {
+      _this.render();
+    }, reason => {
+      console.log(reason)
+    });
   }
 
   initData(){
@@ -53,6 +62,9 @@ class Yard3D {
 
   }
 
+  addPromise(promise){
+    this.arrPromise.push(promise);
+  }
   animate() {
     requestAnimationFrame(this.animate);
     this.render();

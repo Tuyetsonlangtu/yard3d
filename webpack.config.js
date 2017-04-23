@@ -14,7 +14,7 @@ const plugins = [
     root: __dirname,
     verbose: true,
     dry: false,
-    exclude: ['assets']
+    exclude: ['assets','object-3d']
   }),
   new HtmlWebpackPlugin({
     filename: 'index.html',
@@ -88,6 +88,10 @@ const rules = [
   {
     test: /\.(sass|scss)$/,
     loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
+  },
+  {
+    test: /\.json$/,
+    use: 'json-loader'
   }
 ];
 
